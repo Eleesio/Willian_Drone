@@ -1,0 +1,60 @@
+header {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    background: linear-gradient(to bottom, #002b2b, rgba(255, 255, 255, 0));
+    padding-bottom: 20px;
+}
+.navbar {
+    background: none;
+}
+.navbar-brand img {
+    width: 120px;
+}
+.nav-link {
+    color: white;
+    margin-left: 10vh;
+}
+.carousel-item {
+    height: 600px;
+    background: #777;
+    color: white;
+    position: relative;
+}
+.carousel-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 600px;
+    width: 100%;
+    object-fit: cover;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+}
+.card-body {
+    flex: 1;
+}
+.btn-cor {
+    background-color: #00b38c;
+    color: white;
+}
+.btn-cor:hover {
+    background-color: #026953;
+    color: white;
+}
+.img-empresa{
+    width: 10vh;
+}
+.footer {
+    background-color: #f8faf9;
+    padding: 20px 0;
+    text-align: center;
+}
+.icons {
+    width: 5vh;
+    margin-left: 12vh;
+    margin-right: 12vh;
+}
