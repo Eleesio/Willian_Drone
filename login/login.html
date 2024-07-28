@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <main class="container">
+        <h1>Bem vindo!</h1>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat repellat quo veniam veritatis quis dicta, ducimus eius deserunt repellendus odit repudiandae facere porro maiores obcaecati error dolores nulla quisquam. Pariatur!
+        </p>
+        <input type="radio" id="tab-login" name="tabs" checked />
+        <input type="radio" id="tab-register" name="tabs" />
+        <nav class="tabs">
+            <section class="form-login">
+                <div class="form-login-welcome">
+                    <h2>Já tem uma conta?</h2>
+                    <p>Clique no botão abaixo para entrar</p>
+                    <label for="tab-login" class="tab-login btn">Iniciar Sessão</label
+                    >
+                </div>
+                <div class="form-login-container">
+                    <h2>Iniciar Sessão</h2>
+                    <input type="email" placeholder="email" />
+                    <input type="password" placeholder="Senha" />
+                    <button class="btn">Entrar</button>
+                </div>
+            </section>
+            <section class="form-register">
+                <div class="form-register-welcome">
+                    <h2>Ainda não possui uma conta ?</h2>
+                    <p>Clique no botão abaixo para cadastrar-se</p>
+                    <label for="tab-register" class="tab-register btn"
+                        >Cadastrar</label
+                    >
+                </div>
+                <div class="form-register-container">
+                    <h2>Cadastrar-se</h2>
+                    <input type="text" placeholder="Nome" />
+                    <input type="text" placeholder="Sobrenome" />
+                    <input type="email" placeholder="Email" />
+                    <input type="password" placeholder="Senha" />
+                    <button class="btn">Concluir Cadastro</button>
+                </div>
+            </section>
+            <div class="tag-bg-selected"></div>
+        </nav>
+    </main>
+</body>
+</html>
