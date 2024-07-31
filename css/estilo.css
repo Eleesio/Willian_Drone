@@ -105,5 +105,14 @@ header {
 .portfolio-item img {
     height: 200px;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .mt-custom {
+        margin-top: 15%;
+    }
+    .mt-custom-eventos {
+        margin-top: 20%;
+    }
 }
