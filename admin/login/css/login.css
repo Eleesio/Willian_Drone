@@ -55,7 +55,7 @@ input[type="text"] {
     border-radius: 0.5rem;
     padding-left: 1rem;
     border: none;
-    background-color: rgb(219, 218, 218);
+    background-color: white;
 }
 
 .btn {
@@ -106,100 +106,22 @@ input[type="text"] {
     gap: 1rem;
 }
 
-.form-login-container,
-.form-register-container {
-    display: none;
-    -webkit-animation: FadeIn .7s ease-in-out;
-    animation: FadeIn .7s ease-in-out;
-}
-
 .tabs {
     position: relative;
     border-radius: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* glass */
-    background: hsla(0, 0%, 80%, 0.2);
     box-shadow: 0 0px 16px black;
     border-radius: 10px;
 }
 
-.tag-bg-selected {
-    width: 90%;
-    height: 44%;
-    background-color: rgb(255, 255, 255);
-    border-top: 0.5rem solid black;
-    position: absolute;
-    transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.15);
-    box-shadow: 0 0 15px black;
-    border-radius: 1rem;
-    z-index: -1;
-}
-
-#tab-login:checked~.tabs .tag-bg-selected {
-    transform: translateY(12%);
-}
-
-#tab-register:checked~.tabs .tag-bg-selected {
-    transform: translateY(114%);
-}
-
-.tabs .form-login,
-.tabs .form-register {
+.tabs .form-login {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 3rem 1rem;
-    opacity: 0.5;
-    transition: opacity 0.7s ease-in-out;
-    min-height: 400px;
-}
-
-
-/*tag when is selected or not*/
-
-#tab-login:checked~.tabs .form-login,
-#tab-register:checked~.tabs .form-register {
     opacity: 1;
-}
-
-#tab-login:checked~.tabs .form-login .form-login-welcome {
-    display: none;
-}
-
-#tab-login:checked~.tabs .form-login .form-login-container {
-    display: block;
-}
-
-#tab-register:checked~.tabs .form-register .form-register-welcome {
-    display: none;
-}
-
-#tab-register:checked~.tabs .form-register .form-register-container {
-    display: block;
-}
-
-@media screen and (min-width: 1000px) {
-    .tabs {
-        flex-direction: row;
-        width: 80%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .tag-bg-selected {
-        width: 47%;
-        height: 90%;
-    }
-    #tab-login:checked~.tabs .tag-bg-selected {
-        transform: translateX(3%);
-    }
-    #tab-register:checked~.tabs .tag-bg-selected {
-        transform: translateX(109%);
-    }
-    .tabs .form-login,
-    .tabs .form-register {
-        padding: 1.5rem;
-    }
+    min-height: 400px;
 }
