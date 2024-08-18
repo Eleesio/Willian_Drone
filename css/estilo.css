@@ -37,15 +37,6 @@ header {
     object-fit: cover;
 }
 
-.card {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-body {
-    flex: 1;
-}
-
 .btn-cor {
     background-color: #00b38c;
     color: white;
@@ -58,6 +49,8 @@ header {
 
 .img-empresa {
     width: 10vh;
+    border-radius: 5vh;
+    margin: 1vh;
 }
 
 .footer {
@@ -76,11 +69,17 @@ header {
     margin-top: 5%;
 }
 
+/**/
+
+.formulario{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3vh;
+}
 
 /**/
 
 .hero-section {
-    margin-top: 5%;
     background-image: url('../img/card\ 1.jpg');
     background-size: cover;
     background-position: initial;
@@ -99,7 +98,8 @@ header {
 }
 
 .section-padding {
-    padding: 60px 0;
+    padding: 30px 0;
+
 }
 
 .portfolio-item img {
@@ -115,4 +115,40 @@ header {
     .mt-custom-eventos {
         margin-top: 20%;
     }
+}
+
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+blockquote {
+    margin: 0;
+}
+
+.section-padding .row {
+    display: flex;
+}
+
+.section-padding .col-md-4 {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    flex: 1;
+}
+
+.img-thumbnail{
+    border: none;
+}
+
+.quem_somos{
+    margin:auto;
 }
