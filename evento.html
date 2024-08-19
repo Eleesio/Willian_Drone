@@ -6,9 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Willian Drone</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="img/icon.ico">
     <link rel="stylesheet" href="css/estilo.css">
 
-    <style>        
+    <style>
+        /* Configura o layout em flex para o body e html */
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* O container principal deve crescer para ocupar o espaço restante */
+        .content {
+            flex: 1;
+        }
+
         .list-group-item {
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -17,16 +31,16 @@
             background-color: #f8f9fa;
             transition: background-color 0.3s, box-shadow 0.3s;
         }
-        
+
         .list-group-item:hover {
             background-color: #e9ecef;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .list-group-item .badge {
             font-size: 1.25rem;
         }
-        
+
         .card {
             border: none;
             border-radius: 8px;
@@ -34,48 +48,75 @@
             overflow: hidden;
             transition: transform 0.3s;
         }
-        
+
         .card:hover {
             transform: scale(1.02);
         }
-        
+
         .card-img-top {
             border-bottom: 1px solid #ddd;
             object-fit: cover;
             height: 200px;
             width: 100%;
         }
-        
+
         .card-body {
             padding: 15px;
         }
-        
+
         .card-title {
             font-size: 1.25rem;
             font-weight: bold;
         }
-        
+
         .card-text {
             color: #6c757d;
         }
-        
+
         .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
         }
-        
+
         .btn-primary:hover {
             background-color: #0056b3;
             border-color: #004085;
         }
-        
+
         .btn-primary:focus,
         .btn-primary.focus {
             box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
         }
 
-        .mt-custom-eventos{
+        .mt-custom-eventos {
             margin-top: 15vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: #343a40;
+        }
+
+        /* Estilo do botão de adicionar ao carrinho */
+        #addToCartBtn {
+            display: none; /* Oculto por padrão */
+            background-color: #ffc107; /* Cor warning */
+            color: #343a40; /* Cor do texto */
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            width: auto;
+            float: right; /* Coloca o botão à direita */
+        }
+
+        /* Estilo para o contêiner do título e botão */
+        .title-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
@@ -84,7 +125,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="index.html">
                     <img src="img/logo-Branca.png" alt="Logo">
                 </a>
                 <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -112,477 +153,126 @@
             </div>
         </nav>
     </header>
-    <div class="container mt-custom-eventos">
-        <h1 class="text-center mb-4">Últimos Eventos</h1>
-        <div class="list-group">
-            <!-- Evento 1 -->
-            <a href="#evento1" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 1
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento1">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 1">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 2.jpg" class="card-img-top" alt="Foto 2 do Evento 1">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    
+    <div class="content">
+        <div class="container mt-custom-eventos">
+            <div class="title-container">
+                <h1 class="mb-4">Últimos Eventos</h1>
+                <button id="addToCartBtn" class="btn btn-warning">Adicionar ao Carrinho</button>
             </div>
-            <!-- Evento 2 -->
-            <a href="#evento2" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 2
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento2">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 2">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+            <div class="list-group">
+
+                <!-- Evento 1 -->
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="#evento1" data-bs-toggle="collapse" class="flex-grow-1">Evento 1</a>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="evento1Checkbox">
+                    </div>
+                </div>
+                <div class="collapse" id="evento1">
+                    <div class="card card-body mt-2">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 1">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foto 1</h5>
+                                        <p class="card-text">Descrição da foto 1</p>
+                                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                                        <button class="btn btn-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#compraModal">Adicionar ao Carrinho</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 2.jpg" class="card-img-top" alt="Foto 2 do Evento 2">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="img/carrossel 2.jpg" class="card-img-top" alt="Foto 2 do Evento 1">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foto 2</h5>
+                                        <p class="card-text">Descrição da foto 2</p>
+                                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                                        <button class="btn btn-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#compraModal">Adicionar ao Carrinho</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Evento 3 -->
-            <a href="#evento3" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 3
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento3">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+
+                <!-- Evento 2 -->
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="#evento2" data-bs-toggle="collapse" class="flex-grow-1">Evento 2</a>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="evento2Checkbox">
+                    </div>
+                </div>
+                <div class="collapse" id="evento2">
+                    <div class="card card-body mt-2">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 2">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foto 1</h5>
+                                        <p class="card-text">Descrição da foto 1</p>
+                                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                                        <button class="btn btn-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#compraModal">Adicionar ao Carrinho</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="img/carrossel 2.jpg" class="card-img-top" alt="Foto 2 do Evento 2">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foto 2</h5>
+                                        <p class="card-text">Descrição da foto 2</p>
+                                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                                        <button class="btn btn-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#compraModal">Adicionar ao Carrinho</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Evento 4 -->
-            <a href="#evento4" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 4
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento4">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 2.jpg" class="card-img-top" alt="Foto 1 do Evento 4">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+
+                <!-- Evento 3 -->
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="#evento3" data-bs-toggle="collapse" class="flex-grow-1">Evento 3</a>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="evento3Checkbox">
+                    </div>
+                </div>
+                <div class="collapse" id="evento3">
+                    <div class="card card-body mt-2">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foto 1</h5>
+                                        <p class="card-text">Descrição da foto 1</p>
+                                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                                        <button class="btn btn-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#compraModal">Adicionar ao Carrinho</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 4">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <img src="img/carrossel 2.jpg" class="card-img-top" alt="Foto 2 do Evento 3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Foto 2</h5>
+                                        <p class="card-text">Descrição da foto 2</p>
+                                        <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
+                                        <button class="btn btn-warning w-100 mt-2" data-bs-toggle="modal" data-bs-target="#compraModal">Adicionar ao Carrinho</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Evento 5 -->
-            <a href="#evento5" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 5
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento5">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 5">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 5">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 6 -->
-            <a href="#evento6" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 6
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento6">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 6">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 6">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 7 -->
-            <a href="#evento7" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 7
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento7">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 7">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 7">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 8 -->
-            <a href="#evento8" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 8
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento8">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 9 -->
-            <a href="#evento9" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 9
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento9">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 9">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 9">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 10 -->
-            <a href="#evento10" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 10
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento10">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 10">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 10">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 11 -->
-            <a href="#evento11" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 11
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento11">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 11">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 11">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 12 -->
-            <a href="#evento12" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 12
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento12">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 12">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 12">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 13 -->
-            <a href="#evento13" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 13
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento13">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 13">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 13">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 14 -->
-            <a href="#evento14" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 14
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento14">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 1 do Evento 14">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 3.jpg" class="card-img-top" alt="Foto 2 do Evento 14">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Evento 15 -->
-            <a href="#evento15" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" data-bs-toggle="collapse">
-                Evento 15
-                <span class="badge bg-primary rounded-pill"><i class="bi bi-chevron-down"></i></span>
-            </a>
-            <div class="collapse" id="evento15">
-                <div class="card card-body mt-2">
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 1.jpg" class="card-img-top" alt="Foto 1 do Evento 15">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 1</h5>
-                                    <p class="card-text">Descrição da foto 1</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card h-100">
-                                <img src="img/carrossel 2.jpg" class="card-img-top" alt="Foto 2 do Evento 15">
-                                <div class="card-body">
-                                    <h5 class="card-title">Foto 2</h5>
-                                    <p class="card-text">Descrição da foto 2</p>
-                                    <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar Foto</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Outros eventos podem ser adicionados aqui -->
             </div>
         </div>
     </div>
-
 
     <!-- Modal para compra de fotos -->
     <div class="modal fade" id="compraModal" tabindex="-1" aria-labelledby="compraModalLabel" aria-hidden="true">
@@ -606,7 +296,7 @@
         </div>
     </div>
 
-    <div class="footer bg-dark text-white">
+    <footer class="bg-dark text-white text-center py-3">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -619,7 +309,24 @@
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
+
+    <script>
+        // Script para mostrar o botão quando uma checkbox for marcada
+        const checkboxes = document.querySelectorAll('.form-check-input');
+        const addToCartBtn = document.getElementById('addToCartBtn');
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+                if (anyChecked) {
+                    addToCartBtn.style.display = 'block';
+                } else {
+                    addToCartBtn.style.display = 'none';
+                }
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
