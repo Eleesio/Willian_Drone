@@ -28,6 +28,42 @@ function getClients($pdo) {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// Verificar se o formulário de upload de foto foi enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['fileUpload']) && isset($_POST['photoName']) && isset($_POST['selectCategory']) && isset($_POST['photoValue'])) {
+    $photoName = trim($_POST['photoName']);
+    $categoryId = intval($_POST['selectCategory']);
+    $photoValue = floatval($_POST['photoValue']);
+
+    // Verificar se o arquivo foi enviado
+    if ($_FILES['fileUpload']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../uploads/';
+        $uploadFile = $uploadDir . basename($_FILES['fileUpload']['name']);
+
+        // Mover o arquivo para o diretório de uploads
+        if (move_uploaded_file($_FILES['fileUpload']['tmp_name'], $uploadFile)) {
+            // Preparar a consulta SQL para inserir a foto
+            $stmt = $pdo->prepare('INSERT INTO fotos (nome, caminho, categoria_id, valor) VALUES (:nome, :caminho, :categoria_id, :valor)');
+            $stmt->bindParam(':nome', $photoName);
+            $stmt->bindParam(':caminho', $uploadFile);
+            $stmt->bindParam(':categoria_id', $categoryId);
+            $stmt->bindParam(':valor', $photoValue);
+
+            try {
+                $stmt->execute();
+                // Redirecionar para a mesma página para evitar reenvio de formulário
+                header('Location: index.php');
+                exit();
+            } catch (PDOException $e) {
+                $error = 'Erro ao salvar a foto: ' . $e->getMessage();
+            }
+        } else {
+            $error = 'Erro ao mover o arquivo para o diretório de uploads.';
+        }
+    } else {
+        $error = 'Erro no upload do arquivo.';
+    }
+}
+
 // Verificar se o formulário de criação de categoria foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['newCategoryName']) && !empty($_POST['newCategoryName'])) {
     $categoryName = trim($_POST['newCategoryName']);
@@ -107,6 +143,9 @@ $clients = getClients($pdo);
                                 </div>
                                 <button type="submit" class="btn btn-primary">Subir Foto</button>
                             </form>
+                            <?php if (isset($error)): ?>
+                                <div class="alert alert-danger mt-3"><?= htmlspecialchars($error); ?></div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -176,11 +215,9 @@ $clients = getClients($pdo);
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nome do Cliente</th>
+                            <th>Nome</th>
                             <th>Email</th>
-                            <th>Fotos Compradas</th>
-                            <th>Valor Total</th>
-                            <th>Ações</th>
+                            <th>Telefone</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -189,13 +226,7 @@ $clients = getClients($pdo);
                                 <td><?= htmlspecialchars($client['id']); ?></td>
                                 <td><?= htmlspecialchars($client['nome']); ?></td>
                                 <td><?= htmlspecialchars($client['email']); ?></td>
-                                <td>
-                                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#managePhotosModal">Ver Fotos</button>
-                                </td>
-                                <td>R$ 125,00</td>
-                                <td>
-                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#sendPhotoToClientModal">Enviar Foto</button>
-                                </td>
+                                <td><?= htmlspecialchars($client['telefone']); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -203,23 +234,28 @@ $clients = getClients($pdo);
             </div>
         </section>
     </div>
-    <footer class="mt-4">
-        <p>&copy; 2024 Willian Drone. Todos os direitos reservados.</p>
-    </footer>
 
-    <!-- Modal Enviar Foto -->
+    <!-- Modal para enviar fotos -->
     <div class="modal fade" id="sendPhotoModal" tabindex="-1" aria-labelledby="sendPhotoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="sendPhotoModalLabel">Enviar Fotos Selecionadas</h5>
+                    <h5 class="modal-title" id="sendPhotoModalLabel">Enviar Fotos</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="sendPhotoForm">
+                    <form id="sendPhotosForm">
                         <div class="mb-3">
-                            <label for="clientEmail" class="form-label">Email do Cliente</label>
-                            <input type="email" class="form-control" id="clientEmail" name="clientEmail" required>
+                            <label for="clientSelect" class="form-label">Selecionar Cliente</label>
+                            <select class="form-select" id="clientSelect">
+                                <?php foreach ($clients as $client): ?>
+                                    <option value="<?= $client['id']; ?>"><?= htmlspecialchars($client['nome']); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sendMessage" class="form-label">Mensagem</label>
+                            <textarea class="form-control" id="sendMessage" rows="3" placeholder="Digite uma mensagem opcional"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Enviar</button>
                     </form>
@@ -228,44 +264,35 @@ $clients = getClients($pdo);
         </div>
     </div>
 
-    <!-- Modal Gerenciar Fotos do Cliente -->
-    <div class="modal fade" id="managePhotosModal" tabindex="-1" aria-labelledby="managePhotosModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="managePhotosModalLabel">Gerenciar Fotos do Cliente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Aqui você pode gerenciar as fotos do cliente.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Enviar Foto ao Cliente -->
-    <div class="modal fade" id="sendPhotoToClientModal" tabindex="-1" aria-labelledby="sendPhotoToClientModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="sendPhotoToClientModalLabel">Enviar Foto ao Cliente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="sendPhotoToClientForm">
-                        <div class="mb-3">
-                            <label for="clientId" class="form-label">ID do Cliente</label>
-                            <input type="number" class="form-control" id="clientId" name="clientId" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Enviar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script>
+        // JavaScript para manipulação do formulário de envio e outros scripts
+        document.getElementById('selectAll').addEventListener('change', function() {
+            const checked = this.checked;
+            document.querySelectorAll('.photoCheckbox').forEach(cb => cb.checked = checked);
+        });
+
+        document.getElementById('deleteSelectedPhotos').addEventListener('click', function() {
+            const selected = Array.from(document.querySelectorAll('.photoCheckbox'))
+                .filter(cb => cb.checked)
+                .map(cb => cb.closest('tr').cells[1].textContent); // Supondo que a coluna ID seja a segunda
+            // Lógica para excluir fotos selecionadas
+            if (selected.length > 0) {
+                // Enviar IDs para o servidor para exclusão
+                console.log('Excluir fotos com IDs:', selected);
+            }
+        });
+
+        document.getElementById('sendPhotosForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Lógica para enviar fotos
+            const clientId = document.getElementById('clientSelect').value;
+            const message = document.getElementById('sendMessage').value;
+            console.log('Enviar fotos para o cliente:', clientId, 'Mensagem:', message);
+            // Enviar dados para o servidor
+        });
+    </script>
 </body>
 
 </html>
