@@ -36,7 +36,7 @@
                             <a class="nav-link" href="evento.html">Eventos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="login/login.html">Entrar</a>
+                            <a class="nav-link" href="login/login.php">Entrar</a>
                         </li>
                     </ul>
                 </div>
