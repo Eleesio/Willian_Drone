@@ -5,7 +5,7 @@ require_once '../configuration.php';
 session_start();
 
 // Criar uma conexão com o banco de dados
-$conn = new mysqli($host, $user, $password, $db); // Agora, as variáveis são corretamente carregadas
+$conn = new mysqli($host, $user, $password, $db);
 
 // Verificar a conexão
 if ($conn->connect_error) {
@@ -24,19 +24,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
     $password = $_POST['password'];
 
     // Verificar se o usuário existe no banco de dados
-    $sql = "SELECT * FROM clientes WHERE email = ? AND senha = ?";
+    $sql = "SELECT id, email FROM clientes WHERE email = ? AND senha = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $email, $password);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Usuário encontrado, redirecionar para a página principal
+        // Usuário encontrado
+        $user = $result->fetch_assoc();
+        
+        // Armazenar dados na sessão
+        $_SESSION['logged_in'] = true;
+        $_SESSION['user_id'] = $user['id']; // Armazena a ID do usuário
         $_SESSION['email'] = $email;
+
         header("Location: ../index.php");
         exit();
     } else {
-        // Usuário não encontrado, exibir erro
+        // Usuário não encontrado
         $login_error = "Email ou senha incorretos.";
     }
 
@@ -82,6 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
 // Fechar a conexão com o banco de dados
 $conn->close();
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
